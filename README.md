@@ -85,6 +85,18 @@ reordering beyond what the encoders default to. `.ts` and
 `.mts` files use Annex B; the rest use AVCC (length-prefixed
 NALUs).
 
+### Camera originals
+
+Real camera files, stream-copied (not re-encoded), so decoders meet the camera's own bitstream and colour tags.
+
+| File | Container | Camera | Video | Duration |
+| --- | --- | --- | --- | ---: |
+| `12_sony_fx3_xavc.mp4` | MP4 (XAVC S) | Sony FX3 | H.264 High 4:2:2 10-bit, 3840×2160, 23.976 fps, BT.709 | 1.0 s |
+| `13_sony_hlg_xavc.mp4` | MP4 (XAVC S) | Sony | H.264 High 8-bit 4:2:0, 1920×1080, 50 fps, **HLG** (BT.2020, ARIB STD-B67) | 5.1 s |
+
+`13_sony_hlg_xavc.mp4` is HDR footage as cameras shoot it in an HLG picture profile: use it to check that an HLG
+picture decodes and gets through colour conversion (see findit-studio/mediagraph#544).
+
 ## `mpeg2video/`
 
 | File | Container | Source | Duration |
@@ -128,6 +140,7 @@ strings or libvpx behind FFmpeg.
 | A long-running stress run | any `*_airport.*` (40 s) |
 | A non-H.264 codec | `vp9/08_*` (modern), `mpeg2video/03_*` (legacy IBP), `msmpeg4v3/06_*` (legacy WMV) |
 | Audio-track-free | any `*_pandas_muted.*` |
+| An HDR (HLG) camera file | `h264/13_sony_hlg_xavc.mp4` |
 
 ## Consuming from another repo
 
