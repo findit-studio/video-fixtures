@@ -196,6 +196,28 @@
           "height": 1080,
           "frame_rate": "50/1",
           "color_transfer": "arib-std-b67"
+        },
+        {
+          "name": "14_sony_a7m3_xavc_50p.mp4",
+          "path": "h264/14_sony_a7m3_xavc_50p.mp4",
+          "container": "mp4",
+          "bytes": 25979792,
+          "duration_seconds": 3.36,
+          "width": 1920,
+          "height": 1080,
+          "frame_rate": "50/1",
+          "color_transfer": "iec61966-2-4"
+        },
+        {
+          "name": "15_sony_a7rm3_xavc_100p.mp4",
+          "path": "h264/15_sony_a7rm3_xavc_100p.mp4",
+          "container": "mp4",
+          "bytes": 14150324,
+          "duration_seconds": 1.92,
+          "width": 1920,
+          "height": 1080,
+          "frame_rate": "100/1",
+          "color_transfer": "iec61966-2-4"
         }
       ]
     },

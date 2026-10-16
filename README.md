@@ -87,15 +87,33 @@ NALUs).
 
 ### Camera originals
 
-Real camera files, stream-copied (not re-encoded), so decoders meet the camera's own bitstream and colour tags.
+Real camera files, never re-encoded, so decoders meet the camera's own bitstream and colour tags. `12` and `13` are
+stream copies. `14` and `15` are the camera file cut losslessly: every track and every box is kept.
 
 | File | Container | Camera | Video | Duration |
 | --- | --- | --- | --- | ---: |
 | `12_sony_fx3_xavc.mp4` | MP4 (XAVC S) | Sony FX3 | H.264 High 4:2:2 10-bit, 3840×2160, 23.976 fps, BT.709 | 1.0 s |
 | `13_sony_hlg_xavc.mp4` | MP4 (XAVC S) | Sony | H.264 High 8-bit 4:2:0, 1920×1080, 50 fps, **HLG** (BT.2020, ARIB STD-B67) | 5.1 s |
+| `14_sony_a7m3_xavc_50p.mp4` | MP4 (XAVC S) | Sony ILCE-7M3 | H.264 High 8-bit 4:2:0, 1920×1080, **50 fps**, BT.709 / xvYCC; LPCM; `rtmd`; NRT XML | 3.4 s |
+| `15_sony_a7rm3_xavc_100p.mp4` | MP4 (XAVC S) | Sony ILCE-7RM3 | H.264 High 8-bit 4:2:0, 1920×1080, **100 fps**, BT.709 / xvYCC; LPCM; `rtmd`; NRT XML | 1.9 s |
 
 `13_sony_hlg_xavc.mp4` is HDR footage as cameras shoot it in an HLG picture profile: use it to check that an HLG
 picture decodes and gets through colour conversion (see findit-studio/mediagraph#544).
+
+`14_sony_a7m3_xavc_50p.mp4` and `15_sony_a7rm3_xavc_100p.mp4` keep Sony's timecode in both of the camera's places.
+
+- **The `rtmd` track:** per-frame metadata with the timecode.
+- **The NRT XML:** the top-level `meta` box, with `LtcChangeTable tcFps="25" halfStep="true"`.
+
+Use them to read a start timecode at a frame rate above 30 (see findit-studio/mediagraph#551).
+
+Each is the first chunks of the camera file, 7 of 62 and 4 of 45. Everything else is byte for byte the camera's:
+
+- the bytes before `mdat`, and the kept samples at their original offsets;
+- Sony's `uuid` boxes and the `meta` box.
+
+Only the sample tables and durations in `moov` are shortened. The NRT XML is unedited, so its `Duration` and its
+last `LtcChange` still describe the whole original clip (1488 and 2160 frames).
 
 ## `mpeg2video/`
 
@@ -141,6 +159,7 @@ strings or libvpx behind FFmpeg.
 | A non-H.264 codec | `vp9/08_*` (modern), `mpeg2video/03_*` (legacy IBP), `msmpeg4v3/06_*` (legacy WMV) |
 | Audio-track-free | any `*_pandas_muted.*` |
 | An HDR (HLG) camera file | `h264/13_sony_hlg_xavc.mp4` |
+| A camera file's timecode (`rtmd` and NRT XML) above 30 fps | `h264/14_sony_a7m3_xavc_50p.mp4`, `h264/15_sony_a7rm3_xavc_100p.mp4` |
 
 ## Consuming from another repo
 
