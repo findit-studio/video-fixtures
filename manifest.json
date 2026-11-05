@@ -218,6 +218,26 @@
           "height": 1080,
           "frame_rate": "100/1",
           "color_transfer": "iec61966-2-4"
+        },
+        {
+          "name": "16_sony_doc_speech_c0462.mov",
+          "path": "h264/16_sony_doc_speech_c0462.mov",
+          "container": "mov",
+          "bytes": 36806887,
+          "duration_seconds": 166.56,
+          "width": 640,
+          "height": 360,
+          "frame_rate": "50/1"
+        },
+        {
+          "name": "17_sony_fx3_short_reply_06280035.mov",
+          "path": "h264/17_sony_fx3_short_reply_06280035.mov",
+          "container": "mov",
+          "bytes": 2969393,
+          "duration_seconds": 14.01,
+          "width": 640,
+          "height": 360,
+          "frame_rate": "24000/1001"
         }
       ]
     },

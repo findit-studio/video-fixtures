@@ -115,6 +115,24 @@ Each is the first chunks of the camera file, 7 of 62 and 4 of 45. Everything els
 Only the sample tables and durations in `moov` are shortened. The NRT XML is unedited, so its `Duration` and its
 last `LtcChange` still describe the whole original clip (1488 and 2160 frames).
 
+### Camera speech
+
+Speech recorded by the camera, for speech-recognition tests. **The sound is the camera's own:** the LPCM track is a stream copy, bit for bit (the decoded samples of `16` have the same MD5 as the camera file's). **The picture is re-encoded** to 640×360 H.264 to keep the files small, so do not use these for decoder or colour tests. Each file keeps the camera clip's frame rate, and its own timing from 0.
+
+| File | Container | Camera | Sound | Picture | Duration |
+| --- | --- | --- | --- | --- | ---: |
+| `16_sony_doc_speech_c0462.mov` | MOV | Sony (documentary, C0462) | LPCM 48 kHz 16-bit stereo, stream copy | re-encoded, 640×360, 50 fps | 166.6 s |
+| `17_sony_fx3_short_reply_06280035.mov` | MOV | Sony FX3 (drama shoot, 06280035, 18.0–32.0 s) | LPCM 48 kHz 16-bit stereo, stream copy | re-encoded, 640×360, 23.976 fps | 14.0 s |
+
+`16_sony_doc_speech_c0462.mov` is the whole of a 166.6 s documentary clip with Chinese (dialect) speech. Use it for repeatable transcription (see findit-studio/mediagraph#578).
+- Indexed twice as this file, it gave two different texts for the line at 10.55 s: 「不是不是这样的 马上看一看」 and 「不是不是要这样 马上看着」. The camera file gave other texts again.
+- From the camera file, one transcription also gave an empty segment, and another two identical rows at 160.03–160.29 s. Neither came back in the two indexes of this file.
+
+`17_sony_fx3_short_reply_06280035.mov` is 14 s of a Japanese drama take: the call the transcript writes 「よい」 (1.5–2.1 s), then a short sound at 3.22–3.59 s, then the line 「おかえり」 (12.5–13.4 s).
+- The short sound is as loud as the 「よい」 line (RMS −31 dBFS, peak −15 dBFS), against −68 dBFS between the lines.
+- The speaker turns find it, but no transcript segment covers it, either here or in the whole take. It is probably the crew's 「はい」.
+- Use it for short replies that get no transcript (see findit-studio/mediagraph#536).
+
 ## `mpeg2video/`
 
 | File | Container | Source | Duration |
@@ -160,6 +178,9 @@ strings or libvpx behind FFmpeg.
 | Audio-track-free | any `*_pandas_muted.*` |
 | An HDR (HLG) camera file | `h264/13_sony_hlg_xavc.mp4` |
 | A camera file's timecode (`rtmd` and NRT XML) above 30 fps | `h264/14_sony_a7m3_xavc_50p.mp4`, `h264/15_sony_a7rm3_xavc_100p.mp4` |
+| A camera file's capture date with its zone (NRT XML `CreationDate`) | `h264/12_sony_fx3_xavc.mp4` (`+09:00`), `h264/14_sony_a7m3_xavc_50p.mp4` (`+08:00`) |
+| Speech whose transcript changes from run to run | `h264/16_sony_doc_speech_c0462.mov` |
+| A short reply that gets no transcript | `h264/17_sony_fx3_short_reply_06280035.mov` |
 
 ## Consuming from another repo
 
